@@ -1,0 +1,22 @@
+name: F140 NVIDIA Warp Reference V3
+on:
+  workflow_dispatch:
+  push:
+    paths: ['runtime/nvidia_warp_reference_v3.py','.github/workflows/nvidia-warp-reference-v3.yml']
+permissions:
+  contents: read
+jobs:
+  reference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check warp-lang numpy
+      - run: python runtime/nvidia_warp_reference_v3.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: f140-nvidia-warp-reference-v3
+          path: artifacts/f140_warp_reference_v3.json
