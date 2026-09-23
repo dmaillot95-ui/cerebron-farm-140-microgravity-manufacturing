@@ -1,0 +1,4 @@
+import json,hashlib,pathlib,platform
+import math
+gamma=.072;rho=1000.;g_eff=9.80665e-4;lc=math.sqrt(gamma/(rho*g_eff));bo=rho*g_eff*(.01**2)/gamma;out={"surface_tension_n_m":gamma,"density_kg_m3":rho,"effective_gravity_m_s2":g_eff,"capillary_length_m":lc,"bond_number_at_1cm":bo};ok=lc>0 and bo<1
+out.update({"farm":140,"engine":"python-engineering-batch-canary","engine_version":platform.python_version(),"test":"CAPILLARY_LENGTH","status":"REAL_ENGINE_CANARY_OK" if ok else "FAIL","epistemic_status":"ENGINEERING_CANARY_NOT_PHYSICAL_VALIDATION"});raw=json.dumps(out,sort_keys=True).encode();out["result_sha256"]=hashlib.sha256(raw).hexdigest();pathlib.Path("artifacts").mkdir(exist_ok=True);pathlib.Path("artifacts/f140_engine_canary.json").write_text(json.dumps(out,indent=2)+"\n");print(json.dumps(out));raise SystemExit(0 if ok else 1)
