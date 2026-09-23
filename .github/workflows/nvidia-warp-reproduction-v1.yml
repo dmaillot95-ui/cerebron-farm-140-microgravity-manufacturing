@@ -1,0 +1,21 @@
+name: F140 NVIDIA Warp Reproduction V1
+on:
+  workflow_dispatch:
+  push:
+    paths: ['runtime/nvidia_warp_reproduction_v1.py','.github/workflows/nvidia-warp-reproduction-v1.yml']
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check warp-lang
+      - run: python runtime/nvidia_warp_reproduction_v1.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: f140-nvidia-warp-v1
+          path: artifacts/f140_nvidia_warp.json
